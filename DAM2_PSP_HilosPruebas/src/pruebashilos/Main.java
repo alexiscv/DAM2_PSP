@@ -7,7 +7,7 @@ package pruebashilos;
 
 /**
  *
- * @author angel
+ * @author Alexis
  */
 public class Main {
 

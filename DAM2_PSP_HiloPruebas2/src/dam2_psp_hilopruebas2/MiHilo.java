@@ -7,7 +7,7 @@ package dam2_psp_hilopruebas2;
 
 /**
  *
- * @author angel
+ * @author Alexis
  */
 public class MiHilo extends Thread{
     
