@@ -30,7 +30,8 @@ public class DatosCompartidos {
 
             try {
                 System.out.println("       ALMACEN LLENO: Esperando a que el dato sea recogido.");
-                Thread.yield(); // Cedemos el turno a otro hilo
+                
+                // Hacemos que se duerma, así que abandonará el procesador para que entre otro hilo
                 wait();
 
             } catch (InterruptedException e) {
@@ -43,6 +44,9 @@ public class DatosCompartidos {
         // Si no entramos al bucle es porque no hay disponible ningun dato, y deberemos
         // de almacenar uno nuevo y pasar la variable a disponible=true
         this.cadena = cadena;
+        
+        // Mostramos la cadena almacenada por pantalla
+        System.out.println("Almacenado "+ cadena);
 
         // Pasamos datosDisponible a true
         datoDisponible = true;
@@ -65,8 +69,10 @@ public class DatosCompartidos {
 
             try {
                 System.out.println("       ..No hay datos disponible, esperando..");
-                Thread.yield(); // Decemos el turno a otro hilo
-                wait(); // Y esperamos            
+                
+                // Hacemos que se duerma, así que abandonará el procesador para que entre otro hilo
+                wait();
+                
             } catch (Exception e) {
                 System.out.println("Error Interrupted. #2");
 
@@ -76,6 +82,9 @@ public class DatosCompartidos {
 
         // Pasamos datosDisponible a false
         datoDisponible = false;
+        
+        // Mostramos la cadena recogida por pantallas
+        System.out.println("Recogida "+ cadena);
 
         // Si no hemos entrado en el bucle, retornamos el valor y notificamos
         // Al resto de hilos

@@ -27,8 +27,11 @@ public class Productor extends Thread {
 
         for (int i = 0; i < numValores; i++) {
 
-            System.out.println("--> " + nombre + " : Almaceno -> " + i);
+            // Intentamos almacenar un dato
             datosCompartidos.almacenarCadena("Dato de " + nombre + " | Valor: " + i);
+            
+            // Cedemos el turno
+            yield();
 
         }
 

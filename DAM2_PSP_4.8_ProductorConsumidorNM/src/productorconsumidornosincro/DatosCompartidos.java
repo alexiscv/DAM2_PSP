@@ -23,7 +23,7 @@ public class DatosCompartidos {
      * @param n
      */
     public synchronized void totalDatos(int n) {
-        nDatos = nDatos+n;
+        nDatos = nDatos + n;
         System.out.println("       ..Creado " + Thread.currentThread().getName() + " debe generar " + n + " datos (Total " + datosRestantes() + ")");
     }
 
@@ -72,7 +72,6 @@ public class DatosCompartidos {
 
             try {
                 System.out.println("       ALMACEN LLENO: Esperando a que el dato sea recogido.");
-                Thread.yield(); // Cedemos el turno a otro hilo
                 wait();
 
             } catch (InterruptedException e) {
@@ -110,7 +109,7 @@ public class DatosCompartidos {
      *
      * @return
      */
-    public synchronized boolean recogerCadena() {
+    public synchronized boolean recogerCadena(String cadena) {
 
         // Creamos un bucle que nos permita detener el hilo si cuando intenta
         // recoger un dato, este no está disponible
@@ -118,7 +117,6 @@ public class DatosCompartidos {
 
             try {
                 System.out.println("       ..No hay datos disponible, esperando..");
-                Thread.yield(); // Decemos el turno a otro hilo
                 wait(); // Y esperamos            
             } catch (InterruptedException e) {
                 System.out.println("Error Interrupted. #2");
@@ -127,16 +125,27 @@ public class DatosCompartidos {
 
         } else {
 
-            // Pasamos datosDisponible a false para indicar que no hay datos disponibles
-            // Y que es necesario generar un nuevo dato.
-            datoDisponible = false;
+            // Si no hay datos disponibles puede ser por dos razones
+            // Puede ser que aún no se haya generado un dato a recoger
+            // O puede ser que los hilos productores ya hayan terminado de producir datos
+            // Si ya no se van a producir más datos tenemos que detener los hilos colectores
+            // Comprobamos entonces que aún no se haya mandado parar de recolectar
+            if (!isParar()) {
+                
+                // Recogemos                
+                System.out.println(cadena);
+                
+                // Pasamos datosDisponible a false para indicar que no hay datos disponibles
+                // Y que es necesario generar un nuevo dato.
+                datoDisponible = false;
 
-            // Si no hemos entrado en el bucle, retornamos el valor y notificamos
-            // Al resto de hilos
-            System.out.println("<-- " + Thread.currentThread().getName() + " COGE: " + cadena);
-            notifyAll();
+                // Si no hemos entrado en el bucle, retornamos el valor y notificamos
+                // Al resto de hilos
+                notifyAll();
 
-            return true;
+                return true;
+                
+            }
         }
 
         return false;

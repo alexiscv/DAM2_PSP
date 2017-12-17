@@ -26,8 +26,12 @@ public class Consumidor extends Thread {
     public void run() {
 
         for (int i = 0; i < numValores; i++) {
-            
-            System.out.println("<-- " + nombre + " : Recojo -> " + datosCompartidos.recogerCadena());
+
+            // Intentamos recoger una cadena
+            datosCompartidos.recogerCadena();
+
+            // Cedemos el turno
+            yield();
 
         }
 

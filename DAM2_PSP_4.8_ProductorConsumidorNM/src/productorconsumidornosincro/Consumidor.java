@@ -26,7 +26,7 @@ public class Consumidor extends Thread {
         int contador = 0;
         while (datosCompartidos.isParar() == false) {
 
-            if (datosCompartidos.recogerCadena()) {
+            if (datosCompartidos.recogerCadena("<-- " + nombre + " regoce un dato")) {
                 contador++; // Incrementamos el número de valores recogidos/consumidos 
             }
 
